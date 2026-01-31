@@ -48,13 +48,38 @@ export default function VideoExtractor({ className }: VideoExtractorProps) {
     setLoading(true);
     setResults([]);
 
-    // Simulate network delay
-    setTimeout(() => {
-      const extracted = validUrls.map(url => extractVideoInfo(url));
+    // Use Cobalt API for real extraction
+    const promises = validUrls.map(async (url) => {
+      try {
+        const res = await fetch(`/api/extract?url=${encodeURIComponent(url)}`);
+        const json = await res.json();
+        
+        if (json.status === 'success') {
+          return {
+            platform: (json.data.source || 'video').toLowerCase() as any,
+            id: 'cobalt-' + Math.random().toString(36).substr(2, 5),
+            url: json.data.url,
+            thumbnail: json.data.thumbnail || '',
+            title: json.data.title || 'Extracted Video'
+          } as VideoInfo;
+        }
+        // Fallback to local regex if API fails
+        return extractVideoInfo(url);
+      } catch (e) {
+        console.error("API Extract error:", e);
+        return extractVideoInfo(url);
+      }
+    });
+
+    try {
+      const extracted = await Promise.all(promises);
       setResults(extracted);
-      setLoading(false);
       toast.success(`成功解析 ${extracted.length} 个视频`);
-    }, 1500);
+    } catch (e) {
+      toast.error("部分视频解析失败");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const copyLink = (text: string) => {
