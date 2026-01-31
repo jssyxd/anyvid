@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: "DM Sans", sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  
+  --shadow-neon: 0 0 10px var(--primary), 0 0 20px var(--primary);
+  --shadow-neon-hover: 0 0 15px var(--primary), 0 0 30px var(--primary), 0 0 45px var(--secondary);
+}
+
+:root {
+  --radius: 0.75rem;
+  
+  /* Cyberpunk Dopamine Theme (Dark & Vibrant by default) */
+  /* Using OKLCH for vibrant colors */
+  
+  /* Deep Violet Background */
+  --background: oklch(0.12 0.08 280); 
+  
+  /* Bright White/Cyan Text */
+  --foreground: oklch(0.95 0.02 200); 
+  
+  /* Semi-transparent Dark Card */
+  --card: oklch(0.18 0.08 280 / 0.6);
+  --card-foreground: oklch(0.95 0.02 200);
+  
+  --popover: oklch(0.15 0.08 280);
+  --popover-foreground: oklch(0.95 0.02 200);
+  
+  /* Electric Pink / Magenta Primary */
+  --primary: oklch(0.6 0.25 330);
+  --primary-foreground: oklch(1 0 0);
+  
+  /* Neon Cyan Secondary */
+  --secondary: oklch(0.7 0.2 220);
+  --secondary-foreground: oklch(0.1 0.1 280);
+  
+  --muted: oklch(0.25 0.05 280);
+  --muted-foreground: oklch(0.7 0.05 280);
+  
+  --accent: oklch(0.3 0.1 330);
+  --accent-foreground: oklch(0.95 0 0);
+  
+  --destructive: oklch(0.6 0.25 25);
+  
+  --border: oklch(0.3 0.1 280);
+  --input: oklch(0.25 0.05 280);
+  --ring: oklch(0.6 0.25 330);
+}
+
+.dark {
+  /* Same as root because Cyberpunk IS dark mode */
+  --background: oklch(0.12 0.08 280);
+  --foreground: oklch(0.95 0.02 200);
+  --card: oklch(0.18 0.08 280 / 0.6);
+  --card-foreground: oklch(0.95 0.02 200);
+  --primary: oklch(0.6 0.25 330);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.7 0.2 220);
+  --secondary-foreground: oklch(0.1 0.1 280);
+  --muted: oklch(0.25 0.05 280);
+  --muted-foreground: oklch(0.7 0.05 280);
+  --accent: oklch(0.3 0.1 330);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.6 0.25 25);
+  --border: oklch(0.3 0.1 280);
+  --input: oklch(0.25 0.05 280);
+  --ring: oklch(0.6 0.25 330);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-white;
+    background-image: 
+      radial-gradient(at 0% 0%, oklch(0.25 0.2 300 / 0.3) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.25 0.2 200 / 0.3) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold tracking-tight;
+  }
+  
+  /* Neon scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.3 0.1 280);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+}
